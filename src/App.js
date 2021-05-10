@@ -56,6 +56,8 @@ function Points() {
 
   useFrame(() => {
     t += 15;
+    a += 0.0001; //Raindrop FX
+
     const positions = bufferRef.current.array;
 
     let i = 0;
