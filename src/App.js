@@ -1,8 +1,29 @@
 import './App.css';
 import * as THREE from 'three';
-import { Canvas, useFrame, useLoader } from 'react-three-fiber';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import { Canvas, extend, useFrame, useLoader, useThree } from 'react-three-fiber';
 import circleImg from './assets/circle.png';
 import { Suspense, useCallback, useMemo, useRef } from 'react';
+extend({OrbitControls})
+
+function CameraControls(){
+  const {
+    camera,
+    gl: {domElement}
+  } = useThree();
+
+  const controlsRef = useRef();
+  useFrame(() => controlsRef.current.update())
+
+  return (
+    <orbitControls
+      ref={controlsRef}
+      args={[camera, domElement]}
+      autoRotate
+      autoRotateSpeed={-0.2}
+    />
+  );
+}
 
 function Points() {
   const imgTex = useLoader(THREE.TextureLoader, circleImg);
@@ -87,6 +108,7 @@ function AnimationCanvas() {
       <Suspense fallback={null}>
         <Points />
       </Suspense>
+      <CameraControls/>
     </Canvas>
   );
 }
